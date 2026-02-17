@@ -1,5 +1,70 @@
 import SwiftUI
 
+@MainActor
+final class PlayerViewModel: ObservableObject {
+    private let client: MirakurunClient
+    private let useSampleData: Bool
+
+    init(client: MirakurunClient) {
+        self.client = client
+        self.useSampleData = ProcessInfo.processInfo.arguments.contains("-uitest-sample-data")
+    }
+
+    func fetchNowNext(for service: MirakurunService, serverURL: URL?) async -> NowNextProgramPair {
+        if useSampleData {
+            return Self.sampleNowNext(for: service)
+        }
+
+        guard let serverURL else {
+            return NowNextProgramPair(now: nil, next: nil)
+        }
+
+        do {
+            let programs = try await client.fetchPrograms(
+                serverURL: serverURL,
+                networkID: service.networkId,
+                serviceID: service.serviceId
+            )
+            return NowNextProgramPair.from(programs: programs)
+        } catch {
+            return NowNextProgramPair(now: nil, next: nil)
+        }
+    }
+
+    private static func sampleNowNext(for service: MirakurunService) -> NowNextProgramPair {
+        let now = Int64(Date().timeIntervalSince1970 * 1000)
+        let halfHour: Int64 = 30 * 60 * 1000
+        let tenMinutes: Int64 = 10 * 60 * 1000
+        let currentStart = now - tenMinutes
+
+        let current = MirakurunProgram(
+            id: service.id * 100 + 1,
+            eventId: 1,
+            serviceId: service.serviceId,
+            networkId: service.networkId,
+            startAt: currentStart,
+            duration: halfHour,
+            isFree: true,
+            name: "Sample Program A",
+            description: "Sample data for current program overlay."
+        )
+
+        let next = MirakurunProgram(
+            id: service.id * 100 + 2,
+            eventId: 2,
+            serviceId: service.serviceId,
+            networkId: service.networkId,
+            startAt: currentStart + halfHour,
+            duration: halfHour,
+            isFree: true,
+            name: "Sample Program B",
+            description: "Next program in UI test dataset."
+        )
+
+        return NowNextProgramPair(now: current, next: next)
+    }
+}
+
 struct PlayerView: View {
     private enum ChannelChangeDirection {
         case previous
@@ -18,11 +83,19 @@ struct PlayerView: View {
         }
     }
 
+    private struct CurrentProgramOverlayContent: Equatable {
+        let channelName: String
+        let title: String
+        let timeRange: String?
+        let summary: String?
+    }
+
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settings: SettingsStore
 
     let services: [MirakurunService]
 
+    @StateObject private var viewModel: PlayerViewModel
     @State private var currentIndex: Int
     @State private var playbackURL: URL?
     @State private var errorMessage: String?
@@ -36,9 +109,14 @@ struct PlayerView: View {
     @State private var railDismissTask: Task<Void, Never>?
     @State private var channelSwitchHintDismissTask: Task<Void, Never>?
     @State private var transitionMaskTask: Task<Void, Never>?
+    @State private var currentProgramOverlayContent: CurrentProgramOverlayContent?
+    @State private var isCurrentProgramOverlayVisible = false
+    @State private var currentProgramFetchTask: Task<Void, Never>?
+    @State private var currentProgramOverlayDismissTask: Task<Void, Never>?
 
-    init(services: [MirakurunService], initialServiceID: Int) {
+    init(services: [MirakurunService], initialServiceID: Int, client: MirakurunClient) {
         self.services = services
+        _viewModel = StateObject(wrappedValue: PlayerViewModel(client: client))
 
         let index = services.firstIndex(where: { $0.id == initialServiceID }) ?? 0
         _currentIndex = State(initialValue: index)
@@ -93,6 +171,9 @@ struct PlayerView: View {
         .overlay(alignment: .top) {
             channelSwitchHint
         }
+        .overlay(alignment: .topLeading) {
+            currentProgramOverlay
+        }
         .task(id: playbackTaskToken) {
             preparePlayer()
         }
@@ -107,6 +188,8 @@ struct PlayerView: View {
             railDismissTask?.cancel()
             channelSwitchHintDismissTask?.cancel()
             transitionMaskTask?.cancel()
+            currentProgramFetchTask?.cancel()
+            currentProgramOverlayDismissTask?.cancel()
         }
         .onExitCommand {
             dismiss()
@@ -139,6 +222,7 @@ struct PlayerView: View {
                     .font(.subheadline.weight(.bold))
                 Text("Press Left or Right to switch channels")
                     .font(.subheadline.weight(.semibold))
+                    .accessibilityIdentifier("player.channelSwitchHint.text")
             }
             .foregroundStyle(.white)
             .padding(.horizontal, 20)
@@ -151,7 +235,19 @@ struct PlayerView: View {
             .shadow(color: .black.opacity(0.36), radius: 16, y: 8)
             .padding(.top, 56)
             .transition(.move(edge: .top).combined(with: .opacity))
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("Press Left or Right to switch channels")
             .accessibilityIdentifier("player.channelSwitchHint")
+        }
+    }
+
+    @ViewBuilder
+    private var currentProgramOverlay: some View {
+        if isCurrentProgramOverlayVisible, let currentProgramOverlayContent {
+            CurrentProgramOverlayView(content: currentProgramOverlayContent)
+                .padding(.top, 110)
+                .padding(.leading, 60)
+                .transition(.move(edge: .leading).combined(with: .opacity))
         }
     }
 
@@ -164,6 +260,8 @@ struct PlayerView: View {
             errorMessage = "No channels available for playback."
             return
         }
+
+        loadCurrentProgramOverlay(for: currentService)
 
         guard let url = PlaybackURLResolver.resolveURL(for: currentService, settings: settings) else {
             playbackURL = nil
@@ -231,6 +329,64 @@ struct PlayerView: View {
         }
         showRail(direction: direction)
         animateTransitionMask()
+    }
+
+    private func loadCurrentProgramOverlay(for service: MirakurunService) {
+        currentProgramFetchTask?.cancel()
+        currentProgramFetchTask = Task { @MainActor in
+            let nowNext = await viewModel.fetchNowNext(for: service, serverURL: settings.serverURL)
+            guard !Task.isCancelled else { return }
+            guard currentService?.id == service.id else { return }
+            showCurrentProgramOverlay(contentFor(service: service, nowNext: nowNext))
+        }
+    }
+
+    private func showCurrentProgramOverlay(_ content: CurrentProgramOverlayContent) {
+        currentProgramOverlayContent = content
+        withAnimation(.easeOut(duration: 0.24)) {
+            isCurrentProgramOverlayVisible = true
+        }
+
+        currentProgramOverlayDismissTask?.cancel()
+        currentProgramOverlayDismissTask = Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 3_500_000_000)
+            hideCurrentProgramOverlay()
+        }
+    }
+
+    private func hideCurrentProgramOverlay() {
+        guard isCurrentProgramOverlayVisible else { return }
+        currentProgramOverlayDismissTask?.cancel()
+        withAnimation(.easeIn(duration: 0.18)) {
+            isCurrentProgramOverlayVisible = false
+        }
+    }
+
+    private func contentFor(service: MirakurunService, nowNext: NowNextProgramPair) -> CurrentProgramOverlayContent {
+        if let now = nowNext.now {
+            return CurrentProgramOverlayContent(
+                channelName: service.name,
+                title: now.name ?? "(No title)",
+                timeRange: formatProgramTimeRange(now),
+                summary: now.description
+            )
+        }
+
+        if let next = nowNext.next {
+            return CurrentProgramOverlayContent(
+                channelName: service.name,
+                title: "Up Next: \(next.name ?? "(No title)")",
+                timeRange: formatProgramTimeRange(next),
+                summary: next.description
+            )
+        }
+
+        return CurrentProgramOverlayContent(
+            channelName: service.name,
+            title: "Program details unavailable",
+            timeRange: nil,
+            summary: nil
+        )
     }
 
     private func wrappedIndex(_ index: Int) -> Int {
@@ -306,6 +462,12 @@ struct PlayerView: View {
         }
     }
 
+    private func formatProgramTimeRange(_ program: MirakurunProgram) -> String {
+        let start = Self.overlayTimeFormatter.string(from: program.startDate)
+        let end = Self.overlayTimeFormatter.string(from: program.endDate)
+        return "\(start) - \(end)"
+    }
+
     private func channelSubtitle(for service: MirakurunService) -> String {
         let position = "\(currentIndex + 1)/\(services.count)"
 
@@ -319,6 +481,14 @@ struct PlayerView: View {
 
         return "Channel \(position)"
     }
+
+    private static let overlayTimeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        return formatter
+    }()
 
     private func logoURL(for service: MirakurunService) -> URL? {
         guard service.hasLogoData == true, let serverURL = settings.serverURL else { return nil }
@@ -414,6 +584,48 @@ struct PlayerView: View {
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(service.name)
             .accessibilityIdentifier("player.channelRail")
+        }
+    }
+
+    private struct CurrentProgramOverlayView: View {
+        let content: CurrentProgramOverlayContent
+
+        var body: some View {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Now on \(content.channelName)")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.white.opacity(0.85))
+
+                Text(content.title)
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                    .lineLimit(2)
+                    .accessibilityIdentifier("player.currentProgramOverlay")
+
+                if let timeRange = content.timeRange {
+                    Text(timeRange)
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(.white.opacity(0.88))
+                        .lineLimit(1)
+                }
+
+                if let summary = content.summary, !summary.isEmpty {
+                    Text(summary)
+                        .font(.footnote)
+                        .foregroundStyle(.white.opacity(0.82))
+                        .lineLimit(3)
+                }
+            }
+            .padding(.horizontal, 22)
+            .padding(.vertical, 18)
+            .frame(maxWidth: 640, alignment: .leading)
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+            )
+            .shadow(color: .black.opacity(0.36), radius: 20, y: 10)
+            .accessibilityElement(children: .combine)
         }
     }
 

@@ -5,10 +5,12 @@ struct ChannelsView: View {
     @StateObject private var viewModel: ChannelsViewModel
     @State private var selectedService: MirakurunService?
     @FocusState private var focusedServiceID: Int?
+    private let client: MirakurunClient
 
     private let columns = [GridItem(.adaptive(minimum: 220), spacing: 30)]
 
     init(client: MirakurunClient) {
+        self.client = client
         _viewModel = StateObject(wrappedValue: ChannelsViewModel(client: client))
     }
 
@@ -80,7 +82,8 @@ struct ChannelsView: View {
         .fullScreenCover(item: $selectedService) { service in
             PlayerView(
                 services: viewModel.services,
-                initialServiceID: service.id
+                initialServiceID: service.id,
+                client: client
             )
                 .environmentObject(settings)
         }
