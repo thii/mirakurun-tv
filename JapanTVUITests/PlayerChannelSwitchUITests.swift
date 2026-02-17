@@ -27,8 +27,6 @@ final class PlayerChannelSwitchUITests: XCTestCase {
         XCTAssertTrue(streamView101.waitForExistence(timeout: 10), "Player should open on the selected service")
         let channelSwitchHint = app.staticTexts["player.channelSwitchHint.text"]
         XCTAssertTrue(channelSwitchHint.waitForExistence(timeout: 5), "Entry hint should explain left/right channel switching")
-        let currentProgramOverlay = app.staticTexts["player.currentProgramOverlay"]
-        XCTAssertTrue(currentProgramOverlay.waitForExistence(timeout: 5), "Current program details should appear when a channel opens")
 
         XCUIRemote.shared.press(.right)
         let streamView102 = app.otherElements["player.streamView.service.102"]

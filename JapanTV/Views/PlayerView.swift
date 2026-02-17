@@ -412,6 +412,11 @@ struct PlayerView: View {
     }
 
     private func showChannelSwitchHint() {
+        guard services.count > 1 else {
+            isChannelSwitchHintVisible = false
+            return
+        }
+
         withAnimation(.easeOut(duration: 0.26)) {
             isChannelSwitchHintVisible = true
         }
