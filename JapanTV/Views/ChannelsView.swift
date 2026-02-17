@@ -1,9 +1,15 @@
 import SwiftUI
 
 struct ChannelsView: View {
+    private struct PlayerSession: Identifiable {
+        let id = UUID()
+        let services: [MirakurunService]
+        let initialServiceID: Int
+    }
+
     @EnvironmentObject private var settings: SettingsStore
     @StateObject private var viewModel: ChannelsViewModel
-    @State private var selectedService: MirakurunService?
+    @State private var playerSession: PlayerSession?
     @FocusState private var focusedServiceID: Int?
     private let client: MirakurunClient
 
@@ -21,7 +27,7 @@ struct ChannelsView: View {
                     .ignoresSafeArea()
 
                 Group {
-                    if viewModel.services.isEmpty && !viewModel.isLoading {
+                    if displayedServices.isEmpty && !viewModel.isLoading {
                         ContentUnavailableView(
                             "No Channels",
                             systemImage: "tv.slash",
@@ -30,9 +36,12 @@ struct ChannelsView: View {
                     } else {
                         ScrollView {
                             LazyVGrid(columns: columns, spacing: 20) {
-                                ForEach(viewModel.services) { service in
+                                ForEach(displayedServices) { service in
                                     Button {
-                                        selectedService = service
+                                        playerSession = PlayerSession(
+                                            services: displayedServices,
+                                            initialServiceID: service.id
+                                        )
                                     } label: {
                                         ChannelRowView(
                                             service: service,
@@ -65,7 +74,7 @@ struct ChannelsView: View {
         .task(id: settings.serverAddress) {
             await viewModel.reload(serverURL: settings.serverURL)
         }
-        .onChange(of: viewModel.services) { _, services in
+        .onChange(of: displayedServices) { _, services in
             guard !services.isEmpty else {
                 focusedServiceID = nil
                 return
@@ -79,10 +88,10 @@ struct ChannelsView: View {
                 self.focusedServiceID = services.first?.id
             }
         }
-        .fullScreenCover(item: $selectedService) { service in
+        .fullScreenCover(item: $playerSession) { session in
             PlayerView(
-                services: viewModel.services,
-                initialServiceID: service.id,
+                services: session.services,
+                initialServiceID: session.initialServiceID,
                 client: client
             )
                 .environmentObject(settings)
@@ -109,5 +118,9 @@ struct ChannelsView: View {
                 endRadius: 900
             )
         }
+    }
+
+    private var displayedServices: [MirakurunService] {
+        viewModel.uniquifiedServices
     }
 }

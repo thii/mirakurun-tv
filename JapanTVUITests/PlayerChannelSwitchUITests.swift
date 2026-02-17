@@ -16,6 +16,8 @@ final class PlayerChannelSwitchUITests: XCTestCase {
 
         let firstChannel = app.buttons["channels.channelButton.101"]
         XCTAssertTrue(firstChannel.waitForExistence(timeout: 10), "Sample channel should be visible")
+        let duplicateSimulcastChannel = app.buttons["channels.channelButton.103"]
+        XCTAssertFalse(duplicateSimulcastChannel.exists, "Simulcast duplicate channel should be hidden in Channels grid")
         let firstChannelFocused = expectation(
             for: NSPredicate(format: "hasFocus == true"),
             evaluatedWith: firstChannel

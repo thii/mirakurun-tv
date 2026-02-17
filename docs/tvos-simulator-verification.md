@@ -35,10 +35,11 @@ xcrun simctl launch booted com.example.japantv
 5. If your Mirakurun host differs, update URL to your server and re-test.
 6. Open `Channels` tab.
 7. Confirm rows show channel name, logo (when available), and now/next text.
-8. Select a channel and confirm the player opens as fullscreen.
-9. Open `Programs` tab and confirm you can browse programs for selected channel.
-10. Press the Siri Remote `Menu` button and confirm it returns to the channels list.
-11. Confirm player status line changes (`Opening`, `Buffering`, `Playing`) during live playback.
+8. If a subchannel pair is simulcasting the same current program (for example NHK Sougou 1/2), confirm only one tile is shown in the Channels grid.
+9. Select a channel and confirm the player opens as fullscreen.
+10. Open `Programs` tab and confirm you can browse programs for selected channel.
+11. Press the Siri Remote `Menu` button and confirm it returns to the channels list.
+12. Confirm player status line changes (`Opening`, `Buffering`, `Playing`) during live playback.
 
 ## Verification Record
 - Date: 2026-02-17
