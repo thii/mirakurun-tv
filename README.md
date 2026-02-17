@@ -40,7 +40,7 @@ Generated local files are gitignored:
 ## Common Troubleshooting
 - Project/build issues: run `xcodegen generate`
 - Missing `TVVLCKit`: run `./scripts/fetch-tvvlckit.sh`
-- Playback issues: verify `Server URL`, Mirakurun status, and optional HLS override settings
+- Playback issues: verify `Server URL` and Mirakurun status
 
 ## Project Structure
 - `JapanTV/`: app source

@@ -8,27 +8,15 @@ final class SettingsStore: ObservableObject {
         didSet { persist() }
     }
 
-    @Published var useHLSOverride: Bool {
-        didSet { persist() }
-    }
-
-    @Published var hlsTemplate: String {
-        didSet { persist() }
-    }
-
     private let defaults: UserDefaults
 
     private enum Keys {
         static let serverAddress = "settings.serverAddress"
-        static let useHLSOverride = "settings.useHLSOverride"
-        static let hlsTemplate = "settings.hlsTemplate"
     }
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         self.serverAddress = defaults.string(forKey: Keys.serverAddress) ?? Self.defaultServerAddress
-        self.useHLSOverride = defaults.object(forKey: Keys.useHLSOverride) as? Bool ?? false
-        self.hlsTemplate = defaults.string(forKey: Keys.hlsTemplate) ?? ""
     }
 
     var serverURL: URL? {
@@ -41,19 +29,15 @@ final class SettingsStore: ObservableObject {
     }
 
     var playbackConfigToken: String {
-        "\(serverAddress)|\(useHLSOverride)|\(hlsTemplate)"
+        serverAddress
     }
 
     func resetToDefaults() {
         serverAddress = Self.defaultServerAddress
-        useHLSOverride = false
-        hlsTemplate = ""
     }
 
     private func persist() {
         defaults.set(serverAddress, forKey: Keys.serverAddress)
-        defaults.set(useHLSOverride, forKey: Keys.useHLSOverride)
-        defaults.set(hlsTemplate, forKey: Keys.hlsTemplate)
     }
 
     static func normalizeAddress(_ input: String) -> String? {

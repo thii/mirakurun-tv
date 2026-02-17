@@ -39,21 +39,6 @@ xcrun simctl launch booted com.example.japantv
 9. Open `Programs` tab and confirm you can browse programs for selected channel.
 10. Press the Siri Remote `Menu` button and confirm it returns to the channels list.
 11. Confirm player status line changes (`Opening`, `Buffering`, `Playing`) during live playback.
-12. Enable HLS override in settings, set a valid template, and confirm playback URL strategy changes.
-
-## Suggested HLS Template
-Use this only if you operate a proxy/transcoder that outputs HLS.
-
-```text
-http://<proxy-host>:<port>/hls/{serviceId}/index.m3u8
-```
-
-Supported placeholders:
-- `{serviceId}`: Mirakurun service item id
-- `{networkId}`: network id
-- `{channelType}`: channel type (GR/BS/CS/SKY)
-- `{channel}`: channel code
-- `{base}`: configured Mirakurun base URL
 
 ## Verification Record
 - Date: 2026-02-17

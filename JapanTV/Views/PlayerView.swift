@@ -31,8 +31,10 @@ struct PlayerView: View {
     @State private var animateLoadingRing = false
     @State private var isRailVisible = false
     @State private var railDirection: ChannelChangeDirection = .none
+    @State private var isChannelSwitchHintVisible = false
     @State private var transitionMaskOpacity = 0.0
     @State private var railDismissTask: Task<Void, Never>?
+    @State private var channelSwitchHintDismissTask: Task<Void, Never>?
     @State private var transitionMaskTask: Task<Void, Never>?
 
     init(services: [MirakurunService], initialServiceID: Int) {
@@ -88,6 +90,9 @@ struct PlayerView: View {
         .overlay(alignment: .bottom) {
             channelRail
         }
+        .overlay(alignment: .top) {
+            channelSwitchHint
+        }
         .task(id: playbackTaskToken) {
             preparePlayer()
         }
@@ -96,9 +101,11 @@ struct PlayerView: View {
         .onMoveCommand(perform: handleMoveCommand)
         .onAppear {
             showRail(direction: .none)
+            showChannelSwitchHint()
         }
         .onDisappear {
             railDismissTask?.cancel()
+            channelSwitchHintDismissTask?.cancel()
             transitionMaskTask?.cancel()
         }
         .onExitCommand {
@@ -121,6 +128,30 @@ struct PlayerView: View {
             .padding(.horizontal, 60)
             .padding(.bottom, 64)
             .transition(transition(for: railDirection))
+        }
+    }
+
+    @ViewBuilder
+    private var channelSwitchHint: some View {
+        if isChannelSwitchHintVisible {
+            HStack(spacing: 10) {
+                Image(systemName: "chevron.left.chevron.right")
+                    .font(.subheadline.weight(.bold))
+                Text("Press Left or Right to switch channels")
+                    .font(.subheadline.weight(.semibold))
+            }
+            .foregroundStyle(.white)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 12)
+            .background(.ultraThinMaterial, in: Capsule())
+            .overlay(
+                Capsule()
+                    .strokeBorder(Color.white.opacity(0.26), lineWidth: 1)
+            )
+            .shadow(color: .black.opacity(0.36), radius: 16, y: 8)
+            .padding(.top, 56)
+            .transition(.move(edge: .top).combined(with: .opacity))
+            .accessibilityIdentifier("player.channelSwitchHint")
         }
     }
 
@@ -193,6 +224,8 @@ struct PlayerView: View {
         let nextIndex = wrappedIndex(currentIndex + step)
         guard nextIndex != currentIndex else { return }
 
+        hideChannelSwitchHint()
+
         withAnimation(.easeInOut(duration: 0.24)) {
             currentIndex = nextIndex
         }
@@ -219,6 +252,26 @@ struct PlayerView: View {
             withAnimation(.easeOut(duration: 0.22)) {
                 isRailVisible = false
             }
+        }
+    }
+
+    private func showChannelSwitchHint() {
+        withAnimation(.easeOut(duration: 0.26)) {
+            isChannelSwitchHintVisible = true
+        }
+
+        channelSwitchHintDismissTask?.cancel()
+        channelSwitchHintDismissTask = Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 4_000_000_000)
+            hideChannelSwitchHint()
+        }
+    }
+
+    private func hideChannelSwitchHint() {
+        guard isChannelSwitchHintVisible else { return }
+        channelSwitchHintDismissTask?.cancel()
+        withAnimation(.easeIn(duration: 0.20)) {
+            isChannelSwitchHintVisible = false
         }
     }
 

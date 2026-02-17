@@ -1,10 +1,7 @@
 # Hybrid Mirakurun tvOS Client Plan
 
 ## Goal
-Build a tvOS app that uses Mirakurun JSON APIs for metadata (channels, logos, programs) and supports a hybrid playback strategy:
-
-1. Default playback: Mirakurun TS stream (`/api/services/{id}/stream`) with VLC (`TVVLCKit`)
-2. Optional playback override: user-configurable HLS proxy URL template
+Build a tvOS app that uses Mirakurun JSON APIs for metadata (channels, logos, programs) and uses direct Mirakurun TS playback (`/api/services/{id}/stream`) with VLC (`TVVLCKit`).
 
 ## Product Requirements
 - Configurable Mirakurun server address with default: `http://raspberrypi:40772`
@@ -17,11 +14,10 @@ Build a tvOS app that uses Mirakurun JSON APIs for metadata (channels, logos, pr
   - Show program list sorted by start time
 - Playback screen:
   - Stream selected channel
-  - Show selected playback URL strategy (TS direct or HLS override)
 
 ## Architecture
 - `SettingsStore`
-  - Persists server URL and playback preferences in `UserDefaults`
+  - Persists server URL in `UserDefaults`
   - Exposes normalized URL values for networking
 - `MirakurunClient` (async/await)
   - `GET /api/version` for connection check
@@ -30,9 +26,7 @@ Build a tvOS app that uses Mirakurun JSON APIs for metadata (channels, logos, pr
 - `MirakurunEndpointBuilder`
   - Constructs API, logo, and stream URLs from the server URL
 - `PlaybackURLResolver`
-  - Resolves stream URL from settings:
-    - HLS template when enabled
-    - otherwise TS stream URL
+  - Resolves TS stream URL from selected service and server URL
 - `VLCRawTSPlayerView`
   - Uses `VLCMediaPlayer` from `TVVLCKit` for raw TS playback
 - `ChannelsViewModel`
@@ -53,7 +47,6 @@ Build a tvOS app that uses Mirakurun JSON APIs for metadata (channels, logos, pr
   - split-style channel selection and per-channel program list
 - `Settings`
   - Mirakurun base URL text field
-  - toggle + text field for HLS override template
   - reset to defaults
   - test connection action
 
@@ -69,6 +62,5 @@ Build a tvOS app that uses Mirakurun JSON APIs for metadata (channels, logos, pr
 - Large EPG payloads can impact load time; fetch per-service first
 
 ## Mitigations
-- Keep HLS template override available for compatibility fallback
 - Clear error messages in UI for connection/playback failures
 - Lazy/on-demand program fetch per selected service

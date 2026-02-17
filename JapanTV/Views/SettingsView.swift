@@ -20,17 +20,6 @@ struct SettingsView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                Section("Playback") {
-                    Toggle("Use HLS Override Template", isOn: $settings.useHLSOverride)
-                    TextField("HLS Template", text: $settings.hlsTemplate)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled(true)
-
-                    Text("Placeholders: {serviceId}, {networkId}, {channelType}, {channel}, {base}")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                }
-
                 Section("Actions") {
                     Button {
                         Task {
