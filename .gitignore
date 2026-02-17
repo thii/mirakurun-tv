@@ -1,0 +1,8 @@
+.DS_Store
+DerivedData/
+.build/
+*.xcuserstate
+xcuserdata/
+Vendor/TVVLCKit.xcframework
+config/Signing.local.xcconfig
+.local/

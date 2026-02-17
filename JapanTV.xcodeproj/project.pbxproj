@@ -1,0 +1,447 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		119F5BF58F90146716522E3E /* ChannelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EA837C93130D1C9C3E9D0A /* ChannelsView.swift */; };
+		21188EE974009D0C0F6DA6DF /* MirakurunModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3739D9B9FD9F8B782CA32475 /* MirakurunModels.swift */; };
+		22FB950F27CB47BD5F367A24 /* ChannelRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0EE689B1C1E9BA521E27BC5 /* ChannelRowView.swift */; };
+		36B9775CE12C800209A9F43A /* JapanTVApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD0C748954C9B02E51D8515 /* JapanTVApp.swift */; };
+		482D5A3B8050DC29A8AA89DD /* TVVLCKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A09E1CFA1CC3D13530405A87 /* TVVLCKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		540850EF8662813907B4CB43 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D40CF64DB2A22F28ACADF3E /* SettingsView.swift */; };
+		66971AFB75C2035A10099950 /* PlaybackURLResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBCB399392569C806FA3AF5 /* PlaybackURLResolver.swift */; };
+		8A06BD038DA33577B0D23050 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD722F5D1DCE3EC5A9313D33 /* ContentView.swift */; };
+		A5874603364AC4BDE10B1522 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A76A4624760CC1DD1CF026 /* SettingsStore.swift */; };
+		AB6B7711C40654043A03693A /* TVVLCKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A09E1CFA1CC3D13530405A87 /* TVVLCKit.xcframework */; };
+		BB1B5C0F8810A130293F6E3D /* ServiceLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8CEEED06917437D4F5001F1 /* ServiceLogoView.swift */; };
+		C73C0C697F429DD66ABEDDC8 /* ProgramsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16005636D240DF7A4F8EC6E4 /* ProgramsView.swift */; };
+		CFC84D4202596BAEE84AEAD5 /* ChannelsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654669213DC1BBC2BAE771F3 /* ChannelsViewModel.swift */; };
+		D22213937AF33A890557EC80 /* ProgramsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7494D5D8C342E0612522B2C9 /* ProgramsViewModel.swift */; };
+		D6D39FFDA62C140768A3EA6C /* MirakurunClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77023936407C59EAEF101301 /* MirakurunClient.swift */; };
+		D8053EFE6E840EFE349A6581 /* VLCRawTSPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA914D9D8C22C0283BC0775 /* VLCRawTSPlayerView.swift */; };
+		E9F9DC4961CBF2FA5B385FFA /* MirakurunEndpointBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA033572E6C36D4AF00A7E /* MirakurunEndpointBuilder.swift */; };
+		EE4EC1338BF4437D06362D92 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2B67129A5FAB87974A8E02 /* PlayerView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A57375C302F0817E5F1BB627 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				482D5A3B8050DC29A8AA89DD /* TVVLCKit.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		00EA837C93130D1C9C3E9D0A /* ChannelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsView.swift; sourceTree = "<group>"; };
+		16005636D240DF7A4F8EC6E4 /* ProgramsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramsView.swift; sourceTree = "<group>"; };
+		1D2B67129A5FAB87974A8E02 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		3739D9B9FD9F8B782CA32475 /* MirakurunModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirakurunModels.swift; sourceTree = "<group>"; };
+		654669213DC1BBC2BAE771F3 /* ChannelsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsViewModel.swift; sourceTree = "<group>"; };
+		66CF99BE89D327D2C2E65A91 /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
+		7494D5D8C342E0612522B2C9 /* ProgramsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramsViewModel.swift; sourceTree = "<group>"; };
+		77023936407C59EAEF101301 /* MirakurunClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirakurunClient.swift; sourceTree = "<group>"; };
+		7D40CF64DB2A22F28ACADF3E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		99FA033572E6C36D4AF00A7E /* MirakurunEndpointBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirakurunEndpointBuilder.swift; sourceTree = "<group>"; };
+		A09E1CFA1CC3D13530405A87 /* TVVLCKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = TVVLCKit.xcframework; path = Vendor/TVVLCKit.xcframework; sourceTree = "<group>"; };
+		A78A279B389B89BA70D4F790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C8A76A4624760CC1DD1CF026 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
+		CEBCB399392569C806FA3AF5 /* PlaybackURLResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackURLResolver.swift; sourceTree = "<group>"; };
+		DFD0C748954C9B02E51D8515 /* JapanTVApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JapanTVApp.swift; sourceTree = "<group>"; };
+		E0EE689B1C1E9BA521E27BC5 /* ChannelRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRowView.swift; sourceTree = "<group>"; };
+		ECA914D9D8C22C0283BC0775 /* VLCRawTSPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCRawTSPlayerView.swift; sourceTree = "<group>"; };
+		F565CD628861FC83690B86DE /* JapanTV.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = JapanTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8CEEED06917437D4F5001F1 /* ServiceLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLogoView.swift; sourceTree = "<group>"; };
+		FD722F5D1DCE3EC5A9313D33 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A1757BDE4E17CAEBDCE2E52C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB6B7711C40654043A03693A /* TVVLCKit.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0055C5C33E97CB28E66CDFA4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F565CD628861FC83690B86DE /* JapanTV.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0A492F4DCC449DEDC9A9710C /* config */ = {
+			isa = PBXGroup;
+			children = (
+				66CF99BE89D327D2C2E65A91 /* Signing.xcconfig */,
+			);
+			path = config;
+			sourceTree = "<group>";
+		};
+		1F6DAD06BB1FBF3E2CB8EDB9 /* JapanTV */ = {
+			isa = PBXGroup;
+			children = (
+				FD722F5D1DCE3EC5A9313D33 /* ContentView.swift */,
+				A78A279B389B89BA70D4F790 /* Info.plist */,
+				DFD0C748954C9B02E51D8515 /* JapanTVApp.swift */,
+				3C5FE9976F065891E8B711DF /* Models */,
+				8811F7C7A528CFB0A68DE8F4 /* Networking */,
+				665DBF9B9030B99E4D8F108D /* ViewModels */,
+				4B3B5D37A910D28D3C0BE566 /* Views */,
+			);
+			path = JapanTV;
+			sourceTree = "<group>";
+		};
+		3C5FE9976F065891E8B711DF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3739D9B9FD9F8B782CA32475 /* MirakurunModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3FB256DB2886C386FEC7D70E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A09E1CFA1CC3D13530405A87 /* TVVLCKit.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4B3B5D37A910D28D3C0BE566 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E0EE689B1C1E9BA521E27BC5 /* ChannelRowView.swift */,
+				00EA837C93130D1C9C3E9D0A /* ChannelsView.swift */,
+				1D2B67129A5FAB87974A8E02 /* PlayerView.swift */,
+				16005636D240DF7A4F8EC6E4 /* ProgramsView.swift */,
+				F8CEEED06917437D4F5001F1 /* ServiceLogoView.swift */,
+				7D40CF64DB2A22F28ACADF3E /* SettingsView.swift */,
+				ECA914D9D8C22C0283BC0775 /* VLCRawTSPlayerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		665DBF9B9030B99E4D8F108D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				654669213DC1BBC2BAE771F3 /* ChannelsViewModel.swift */,
+				7494D5D8C342E0612522B2C9 /* ProgramsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		8811F7C7A528CFB0A68DE8F4 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				77023936407C59EAEF101301 /* MirakurunClient.swift */,
+				99FA033572E6C36D4AF00A7E /* MirakurunEndpointBuilder.swift */,
+				CEBCB399392569C806FA3AF5 /* PlaybackURLResolver.swift */,
+				C8A76A4624760CC1DD1CF026 /* SettingsStore.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		E67F2E8B905556DE17DD0AF7 = {
+			isa = PBXGroup;
+			children = (
+				0A492F4DCC449DEDC9A9710C /* config */,
+				1F6DAD06BB1FBF3E2CB8EDB9 /* JapanTV */,
+				3FB256DB2886C386FEC7D70E /* Frameworks */,
+				0055C5C33E97CB28E66CDFA4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BBF09F0E8CCB0EEF28D957F7 /* JapanTV */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 090D3B1A93E0B438ABF11871 /* Build configuration list for PBXNativeTarget "JapanTV" */;
+			buildPhases = (
+				CE23036B32531020B862CB90 /* Sources */,
+				A1757BDE4E17CAEBDCE2E52C /* Frameworks */,
+				A57375C302F0817E5F1BB627 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JapanTV;
+			packageProductDependencies = (
+			);
+			productName = JapanTV;
+			productReference = F565CD628861FC83690B86DE /* JapanTV.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		91D781222EA9DE865E643D4B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					BBF09F0E8CCB0EEF28D957F7 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 154E7802FAC09B3A63A0539B /* Build configuration list for PBXProject "JapanTV" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = E67F2E8B905556DE17DD0AF7;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BBF09F0E8CCB0EEF28D957F7 /* JapanTV */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CE23036B32531020B862CB90 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				22FB950F27CB47BD5F367A24 /* ChannelRowView.swift in Sources */,
+				119F5BF58F90146716522E3E /* ChannelsView.swift in Sources */,
+				CFC84D4202596BAEE84AEAD5 /* ChannelsViewModel.swift in Sources */,
+				8A06BD038DA33577B0D23050 /* ContentView.swift in Sources */,
+				36B9775CE12C800209A9F43A /* JapanTVApp.swift in Sources */,
+				D6D39FFDA62C140768A3EA6C /* MirakurunClient.swift in Sources */,
+				E9F9DC4961CBF2FA5B385FFA /* MirakurunEndpointBuilder.swift in Sources */,
+				21188EE974009D0C0F6DA6DF /* MirakurunModels.swift in Sources */,
+				66971AFB75C2035A10099950 /* PlaybackURLResolver.swift in Sources */,
+				EE4EC1338BF4437D06362D92 /* PlayerView.swift in Sources */,
+				C73C0C697F429DD66ABEDDC8 /* ProgramsView.swift in Sources */,
+				D22213937AF33A890557EC80 /* ProgramsViewModel.swift in Sources */,
+				BB1B5C0F8810A130293F6E3D /* ServiceLogoView.swift in Sources */,
+				A5874603364AC4BDE10B1522 /* SettingsStore.swift in Sources */,
+				540850EF8662813907B4CB43 /* SettingsView.swift in Sources */,
+				D8053EFE6E840EFE349A6581 /* VLCRawTSPlayerView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		957AC4C8DB241975E58CD03D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+				TVOS_DEPLOYMENT_TARGET = 17.0;
+			};
+			name = Release;
+		};
+		C423D5E72E85DCDEE9AAF48E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 66CF99BE89D327D2C2E65A91 /* Signing.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"Vendor\"",
+				);
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = JapanTV/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.japantv;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 17.0;
+			};
+			name = Release;
+		};
+		CD7CF639773FA196A86B7357 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 66CF99BE89D327D2C2E65A91 /* Signing.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"Vendor\"",
+				);
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = JapanTV/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.japantv;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 17.0;
+			};
+			name = Debug;
+		};
+		E0D9ADDD38969026CDC08763 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+				TVOS_DEPLOYMENT_TARGET = 17.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		090D3B1A93E0B438ABF11871 /* Build configuration list for PBXNativeTarget "JapanTV" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD7CF639773FA196A86B7357 /* Debug */,
+				C423D5E72E85DCDEE9AAF48E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		154E7802FAC09B3A63A0539B /* Build configuration list for PBXProject "JapanTV" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0D9ADDD38969026CDC08763 /* Debug */,
+				957AC4C8DB241975E58CD03D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 91D781222EA9DE865E643D4B /* Project object */;
+}

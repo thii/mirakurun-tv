@@ -1,0 +1,5 @@
+// Copy this file to Signing.local.xcconfig and fill your values.
+// This file is intentionally not used directly by the build.
+
+DEVELOPMENT_TEAM = ABCDE12345
+JAPANTV_APPLE_TEAM_NAME = My Apple Team
