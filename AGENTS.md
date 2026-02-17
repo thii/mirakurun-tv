@@ -8,6 +8,12 @@ This repository contains a tvOS client for Mirakurun.
 - Keep networking and UI logic separated.
 - When adding new API calls, update docs in `docs/` if behavior changes.
 
+## tvOS Navigation Verification
+- For tvOS navigation/back behavior changes, verify `Menu` button handling before completion.
+- Validate that pressing `Menu` from nested screens (for example Program details) returns to the previous in-app screen and does not terminate the app unexpectedly.
+- When possible, use reproducible simulator verification (for example UI tests with `XCUIRemote.shared.press(.menu)`), and include the verification command/output in commit evidence.
+- For this repository, run `xcodebuild test -project JapanTV.xcodeproj -scheme JapanTV -destination 'platform=tvOS Simulator,name=Apple TV' -only-testing:JapanTVUITests/ProgramsMenuNavigationUITests/testMenuReturnsToProgramsChannelListFromDetail` after any Programs navigation change.
+
 ## Commit Message Requirements
 All commit messages must include concrete debugging and investigation details.
 

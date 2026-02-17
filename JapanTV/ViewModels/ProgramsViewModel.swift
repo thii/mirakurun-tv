@@ -3,28 +3,26 @@ import Foundation
 @MainActor
 final class ProgramsViewModel: ObservableObject {
     @Published private(set) var services: [MirakurunService] = []
-    @Published var selectedServiceID: Int?
-    @Published private(set) var programs: [MirakurunProgram] = []
     @Published private(set) var isLoadingServices = false
-    @Published private(set) var isLoadingPrograms = false
     @Published var errorMessage: String?
 
     private let client: MirakurunClient
+    private let useSampleData: Bool
 
     init(client: MirakurunClient) {
         self.client = client
-    }
-
-    var selectedService: MirakurunService? {
-        guard let selectedServiceID else { return nil }
-        return services.first(where: { $0.id == selectedServiceID })
+        self.useSampleData = ProcessInfo.processInfo.arguments.contains("-uitest-sample-data")
     }
 
     func reload(serverURL: URL?) async {
+        if useSampleData {
+            services = Self.sampleServices
+            errorMessage = nil
+            return
+        }
+
         guard let serverURL else {
             services = []
-            programs = []
-            selectedServiceID = nil
             errorMessage = "Set a valid Mirakurun server URL in Settings."
             return
         }
@@ -36,41 +34,84 @@ final class ProgramsViewModel: ObservableObject {
             let fetched = try await client.fetchServices(serverURL: serverURL)
             services = fetched
             errorMessage = nil
-
-            if let selectedServiceID, fetched.contains(where: { $0.id == selectedServiceID }) {
-                await loadProgramsForSelected(serverURL: serverURL)
-            } else {
-                selectedServiceID = fetched.first?.id
-                await loadProgramsForSelected(serverURL: serverURL)
-            }
         } catch {
             services = []
-            programs = []
-            selectedServiceID = nil
             errorMessage = error.localizedDescription
         }
     }
 
-    func loadProgramsForSelected(serverURL: URL?) async {
-        guard let serverURL, let selectedService else {
-            programs = []
-            return
+    func fetchPrograms(for service: MirakurunService, serverURL: URL?) async throws -> [MirakurunProgram] {
+        if useSampleData {
+            return Self.samplePrograms(for: service)
         }
 
-        isLoadingPrograms = true
-        defer { isLoadingPrograms = false }
+        guard let serverURL else {
+            throw MirakurunClientError.invalidServerURL
+        }
 
-        do {
-            let fetched = try await client.fetchPrograms(
-                serverURL: serverURL,
-                networkID: selectedService.networkId,
-                serviceID: selectedService.serviceId
+        return try await client.fetchPrograms(
+            serverURL: serverURL,
+            networkID: service.networkId,
+            serviceID: service.serviceId
+        )
+    }
+
+    private static let sampleServices: [MirakurunService] = [
+        MirakurunService(
+            id: 101,
+            serviceId: 101,
+            networkId: 1,
+            name: "NHK Sample 1",
+            type: 1,
+            logoId: nil,
+            hasLogoData: false,
+            remoteControlKeyId: 1,
+            epgReady: true,
+            epgUpdatedAt: nil,
+            channel: MirakurunChannel(type: .gr, channel: "27", name: "Sample")
+        ),
+        MirakurunService(
+            id: 102,
+            serviceId: 102,
+            networkId: 1,
+            name: "Tokyo MX Sample",
+            type: 1,
+            logoId: nil,
+            hasLogoData: false,
+            remoteControlKeyId: 9,
+            epgReady: true,
+            epgUpdatedAt: nil,
+            channel: MirakurunChannel(type: .gr, channel: "23", name: "Sample")
+        )
+    ]
+
+    private static func samplePrograms(for service: MirakurunService) -> [MirakurunProgram] {
+        let now = Int64(Date().timeIntervalSince1970 * 1000)
+        let halfHour: Int64 = 30 * 60 * 1000
+
+        return [
+            MirakurunProgram(
+                id: service.id * 10 + 1,
+                eventId: 1,
+                serviceId: service.serviceId,
+                networkId: service.networkId,
+                startAt: now,
+                duration: halfHour,
+                isFree: true,
+                name: "Sample Program A",
+                description: "Sample data for UI verification."
+            ),
+            MirakurunProgram(
+                id: service.id * 10 + 2,
+                eventId: 2,
+                serviceId: service.serviceId,
+                networkId: service.networkId,
+                startAt: now + halfHour,
+                duration: halfHour,
+                isFree: true,
+                name: "Sample Program B",
+                description: "Next program in UI test dataset."
             )
-            programs = fetched
-            errorMessage = nil
-        } catch {
-            programs = []
-            errorMessage = error.localizedDescription
-        }
+        ]
     }
 }

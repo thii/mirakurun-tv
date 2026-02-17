@@ -11,6 +11,7 @@
 		21188EE974009D0C0F6DA6DF /* MirakurunModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3739D9B9FD9F8B782CA32475 /* MirakurunModels.swift */; };
 		22FB950F27CB47BD5F367A24 /* ChannelRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0EE689B1C1E9BA521E27BC5 /* ChannelRowView.swift */; };
 		36B9775CE12C800209A9F43A /* JapanTVApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD0C748954C9B02E51D8515 /* JapanTVApp.swift */; };
+		45681377DD52E05170F6BDF3 /* ProgramsMenuNavigationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84104E7B415C137777FA4ABA /* ProgramsMenuNavigationUITests.swift */; };
 		482D5A3B8050DC29A8AA89DD /* TVVLCKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A09E1CFA1CC3D13530405A87 /* TVVLCKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		540850EF8662813907B4CB43 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D40CF64DB2A22F28ACADF3E /* SettingsView.swift */; };
 		66971AFB75C2035A10099950 /* PlaybackURLResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBCB399392569C806FA3AF5 /* PlaybackURLResolver.swift */; };
@@ -26,6 +27,16 @@
 		E9F9DC4961CBF2FA5B385FFA /* MirakurunEndpointBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA033572E6C36D4AF00A7E /* MirakurunEndpointBuilder.swift */; };
 		EE4EC1338BF4437D06362D92 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2B67129A5FAB87974A8E02 /* PlayerView.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E58250BEAB44D56FCB7B4A5E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 91D781222EA9DE865E643D4B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BBF09F0E8CCB0EEF28D957F7;
+			remoteInfo = JapanTV;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		A57375C302F0817E5F1BB627 /* Embed Frameworks */ = {
@@ -51,11 +62,13 @@
 		7494D5D8C342E0612522B2C9 /* ProgramsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramsViewModel.swift; sourceTree = "<group>"; };
 		77023936407C59EAEF101301 /* MirakurunClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirakurunClient.swift; sourceTree = "<group>"; };
 		7D40CF64DB2A22F28ACADF3E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		84104E7B415C137777FA4ABA /* ProgramsMenuNavigationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramsMenuNavigationUITests.swift; sourceTree = "<group>"; };
 		99FA033572E6C36D4AF00A7E /* MirakurunEndpointBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirakurunEndpointBuilder.swift; sourceTree = "<group>"; };
 		A09E1CFA1CC3D13530405A87 /* TVVLCKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = TVVLCKit.xcframework; path = Vendor/TVVLCKit.xcframework; sourceTree = "<group>"; };
 		A78A279B389B89BA70D4F790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C8A76A4624760CC1DD1CF026 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		CEBCB399392569C806FA3AF5 /* PlaybackURLResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackURLResolver.swift; sourceTree = "<group>"; };
+		D36B460274E1AE49555EB57F /* JapanTVUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = JapanTVUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFD0C748954C9B02E51D8515 /* JapanTVApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JapanTVApp.swift; sourceTree = "<group>"; };
 		E0EE689B1C1E9BA521E27BC5 /* ChannelRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRowView.swift; sourceTree = "<group>"; };
 		ECA914D9D8C22C0283BC0775 /* VLCRawTSPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLCRawTSPlayerView.swift; sourceTree = "<group>"; };
@@ -80,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				F565CD628861FC83690B86DE /* JapanTV.app */,
+				D36B460274E1AE49555EB57F /* JapanTVUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,6 +126,14 @@
 				3739D9B9FD9F8B782CA32475 /* MirakurunModels.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		3D3E0DBF092F05D443D72210 /* JapanTVUITests */ = {
+			isa = PBXGroup;
+			children = (
+				84104E7B415C137777FA4ABA /* ProgramsMenuNavigationUITests.swift */,
+			);
+			path = JapanTVUITests;
 			sourceTree = "<group>";
 		};
 		3FB256DB2886C386FEC7D70E /* Frameworks */ = {
@@ -161,6 +183,7 @@
 			children = (
 				0A492F4DCC449DEDC9A9710C /* config */,
 				1F6DAD06BB1FBF3E2CB8EDB9 /* JapanTV */,
+				3D3E0DBF092F05D443D72210 /* JapanTVUITests */,
 				3FB256DB2886C386FEC7D70E /* Frameworks */,
 				0055C5C33E97CB28E66CDFA4 /* Products */,
 			);
@@ -169,6 +192,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		9E1335D7DBA3195081BDC4D2 /* JapanTVUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9FF34A513A7E399F0536FACC /* Build configuration list for PBXNativeTarget "JapanTVUITests" */;
+			buildPhases = (
+				F48320D76EA612004B730BE6 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6F851B9A6E756F0FB957853E /* PBXTargetDependency */,
+			);
+			name = JapanTVUITests;
+			packageProductDependencies = (
+			);
+			productName = JapanTVUITests;
+			productReference = D36B460274E1AE49555EB57F /* JapanTVUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		BBF09F0E8CCB0EEF28D957F7 /* JapanTV */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 090D3B1A93E0B438ABF11871 /* Build configuration list for PBXNativeTarget "JapanTV" */;
@@ -197,6 +238,9 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					9E1335D7DBA3195081BDC4D2 = {
+						TestTargetID = BBF09F0E8CCB0EEF28D957F7;
+					};
 					BBF09F0E8CCB0EEF28D957F7 = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
@@ -218,6 +262,7 @@
 			projectRoot = "";
 			targets = (
 				BBF09F0E8CCB0EEF28D957F7 /* JapanTV */,
+				9E1335D7DBA3195081BDC4D2 /* JapanTVUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -246,9 +291,44 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F48320D76EA612004B730BE6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				45681377DD52E05170F6BDF3 /* ProgramsMenuNavigationUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		6F851B9A6E756F0FB957853E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BBF09F0E8CCB0EEF28D957F7 /* JapanTV */;
+			targetProxy = E58250BEAB44D56FCB7B4A5E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		6F0D2EB11B7305F2DD0E8BCD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.japantv.uitests;
+				SDKROOT = appletvos;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_TARGET_NAME = JapanTV;
+				TVOS_DEPLOYMENT_TARGET = 17.0;
+			};
+			name = Debug;
+		};
 		957AC4C8DB241975E58CD03D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -301,6 +381,25 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 6.0;
+				TVOS_DEPLOYMENT_TARGET = 17.0;
+			};
+			name = Release;
+		};
+		A8A350D7C682DC7CCF837CE2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.japantv.uitests;
+				SDKROOT = appletvos;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_TARGET_NAME = JapanTV;
 				TVOS_DEPLOYMENT_TARGET = 17.0;
 			};
 			name = Release;
@@ -437,6 +536,15 @@
 			buildConfigurations = (
 				E0D9ADDD38969026CDC08763 /* Debug */,
 				957AC4C8DB241975E58CD03D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9FF34A513A7E399F0536FACC /* Build configuration list for PBXNativeTarget "JapanTVUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F0D2EB11B7305F2DD0E8BCD /* Debug */,
+				A8A350D7C682DC7CCF837CE2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

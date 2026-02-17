@@ -26,3 +26,17 @@ targets:
         GENERATE_INFOPLIST_FILE: NO
         SUPPORTS_MACCATALYST: NO
         SWIFT_ENABLE_EXPLICIT_MODULES: NO
+
+  JapanTVUITests:
+    type: bundle.ui-testing
+    platform: tvOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: JapanTVUITests
+    dependencies:
+      - target: JapanTV
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.japantv.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_ENABLE_EXPLICIT_MODULES: NO
