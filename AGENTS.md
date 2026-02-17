@@ -21,7 +21,7 @@ All commit messages must include concrete debugging and investigation details.
 Use this structure in commit messages:
 
 ```text
-<type>: <short summary>
+<short summary in plain language (no Conventional Commit prefix)>
 
 Context
 - Why this change was needed.
@@ -47,6 +47,7 @@ Verification
 
 ### Rules
 - Do not write generic commit messages like "fix bug".
+- Do not use Conventional Commit prefixes like `feat:`, `fix:`, `chore:`, `docs:`, or similar `<type>:` labels.
 - Include command lines used for debugging (for example: `xcodebuild ...`, `xcrun simctl ...`).
 - Include status codes, error strings, and affected endpoints when relevant.
 - If a bug cannot be fully resolved, state what is still unknown and the next debugging step.
