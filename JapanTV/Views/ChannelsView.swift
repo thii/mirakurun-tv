@@ -6,7 +6,7 @@ struct ChannelsView: View {
     @State private var selectedService: MirakurunService?
     @FocusState private var focusedServiceID: Int?
 
-    private let columns = [GridItem(.adaptive(minimum: 230, maximum: 250), spacing: 22)]
+    private let columns = [GridItem(.adaptive(minimum: 220), spacing: 30)]
 
     init(client: MirakurunClient) {
         _viewModel = StateObject(wrappedValue: ChannelsViewModel(client: client))
@@ -27,26 +27,27 @@ struct ChannelsView: View {
                         )
                     } else {
                         ScrollView {
-                            LazyVGrid(columns: columns, spacing: 22) {
+                            LazyVGrid(columns: columns, spacing: 20) {
                                 ForEach(viewModel.services) { service in
                                     Button {
                                         selectedService = service
                                     } label: {
                                         ChannelRowView(
                                             service: service,
-                                            logoURL: viewModel.logoURL(for: service, serverURL: settings.serverURL),
-                                            isFocused: focusedServiceID == service.id
+                                            logoURL: viewModel.logoURL(for: service, serverURL: settings.serverURL)
                                         )
                                     }
-                                    .buttonStyle(.plain)
+                                    .buttonStyle(.card)
                                     .focused($focusedServiceID, equals: service.id)
+                                    .accessibilityIdentifier("channels.channelButton.\(service.id)")
                                 }
                             }
-                            .padding(.horizontal, 72)
-                            .padding(.top, 40)
+                            .padding(.horizontal, 48)
+                            .padding(.top, 48)
                             .padding(.bottom, 80)
                         }
                         .scrollIndicators(.hidden)
+                        .accessibilityIdentifier("channels.grid")
                     }
                 }
                 .overlay(alignment: .bottom) {
@@ -77,7 +78,10 @@ struct ChannelsView: View {
             }
         }
         .fullScreenCover(item: $selectedService) { service in
-            PlayerView(service: service)
+            PlayerView(
+                services: viewModel.services,
+                initialServiceID: service.id
+            )
                 .environmentObject(settings)
         }
     }

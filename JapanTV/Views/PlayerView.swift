@@ -1,16 +1,46 @@
 import SwiftUI
 
 struct PlayerView: View {
+    private enum ChannelChangeDirection {
+        case previous
+        case next
+        case none
+
+        var iconName: String {
+            switch self {
+            case .previous:
+                return "chevron.left.circle.fill"
+            case .next:
+                return "chevron.right.circle.fill"
+            case .none:
+                return "dot.radiowaves.left.and.right"
+            }
+        }
+    }
+
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settings: SettingsStore
 
-    let service: MirakurunService
+    let services: [MirakurunService]
 
+    @State private var currentIndex: Int
     @State private var playbackURL: URL?
     @State private var errorMessage: String?
     @State private var statusText = "Preparing stream..."
     @State private var hasStartedPlayback = false
     @State private var animateLoadingRing = false
+    @State private var isRailVisible = false
+    @State private var railDirection: ChannelChangeDirection = .none
+    @State private var transitionMaskOpacity = 0.0
+    @State private var railDismissTask: Task<Void, Never>?
+    @State private var transitionMaskTask: Task<Void, Never>?
+
+    init(services: [MirakurunService], initialServiceID: Int) {
+        self.services = services
+
+        let index = services.firstIndex(where: { $0.id == initialServiceID }) ?? 0
+        _currentIndex = State(initialValue: index)
+    }
 
     var body: some View {
         ZStack {
@@ -35,6 +65,15 @@ struct PlayerView: View {
                 .ignoresSafeArea()
             }
 
+            RemoteCommandCaptureView(onMoveCommand: handleMoveCommand)
+                .frame(width: 1, height: 1)
+                .accessibilityHidden(true)
+
+            Color.black
+                .opacity(transitionMaskOpacity)
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+
             if let errorMessage {
                 ContentUnavailableView(
                     "Playback Unavailable",
@@ -46,20 +85,56 @@ struct PlayerView: View {
                     .transition(.opacity)
             }
         }
-        .task(id: settings.playbackConfigToken) {
+        .overlay(alignment: .bottom) {
+            channelRail
+        }
+        .task(id: playbackTaskToken) {
             preparePlayer()
+        }
+        .focusable(true)
+        .focusEffectDisabled()
+        .onMoveCommand(perform: handleMoveCommand)
+        .onAppear {
+            showRail(direction: .none)
+        }
+        .onDisappear {
+            railDismissTask?.cancel()
+            transitionMaskTask?.cancel()
         }
         .onExitCommand {
             dismiss()
         }
         .toolbar(.hidden, for: .navigationBar)
+        .accessibilityIdentifier("player.streamView.service.\(currentService?.id ?? -1)")
+    }
+
+    @ViewBuilder
+    private var channelRail: some View {
+        if isRailVisible, let currentService {
+            LiveTVRailView(
+                service: currentService,
+                subtitle: channelSubtitle(for: currentService),
+                logoURL: logoURL(for: currentService),
+                direction: railDirection
+            )
+            .id(currentService.id)
+            .padding(.horizontal, 60)
+            .padding(.bottom, 64)
+            .transition(transition(for: railDirection))
+        }
     }
 
     private func preparePlayer() {
         hasStartedPlayback = false
         statusText = "Preparing stream..."
 
-        guard let url = PlaybackURLResolver.resolveURL(for: service, settings: settings) else {
+        guard let currentService else {
+            playbackURL = nil
+            errorMessage = "No channels available for playback."
+            return
+        }
+
+        guard let url = PlaybackURLResolver.resolveURL(for: currentService, settings: settings) else {
             playbackURL = nil
             errorMessage = "Invalid playback URL. Check your server address and HLS template settings."
             return
@@ -89,6 +164,114 @@ struct PlayerView: View {
         }
     }
 
+    private var currentService: MirakurunService? {
+        guard services.indices.contains(currentIndex) else { return nil }
+        return services[currentIndex]
+    }
+
+    private var playbackTaskToken: String {
+        "\(settings.playbackConfigToken)-\(currentService?.id ?? -1)"
+    }
+
+    private func handleMoveCommand(_ direction: MoveCommandDirection) {
+        switch direction {
+        case .left:
+            switchChannel(step: -1, direction: .previous)
+        case .right:
+            switchChannel(step: 1, direction: .next)
+        default:
+            break
+        }
+    }
+
+    private func switchChannel(step: Int, direction: ChannelChangeDirection) {
+        guard services.count > 1 else {
+            showRail(direction: .none)
+            return
+        }
+
+        let nextIndex = wrappedIndex(currentIndex + step)
+        guard nextIndex != currentIndex else { return }
+
+        withAnimation(.easeInOut(duration: 0.24)) {
+            currentIndex = nextIndex
+        }
+        showRail(direction: direction)
+        animateTransitionMask()
+    }
+
+    private func wrappedIndex(_ index: Int) -> Int {
+        let count = services.count
+        guard count > 0 else { return 0 }
+        let candidate = index % count
+        return candidate >= 0 ? candidate : candidate + count
+    }
+
+    private func showRail(direction: ChannelChangeDirection) {
+        railDirection = direction
+        withAnimation(.spring(response: 0.42, dampingFraction: 0.88)) {
+            isRailVisible = true
+        }
+
+        railDismissTask?.cancel()
+        railDismissTask = Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 2_000_000_000)
+            withAnimation(.easeOut(duration: 0.22)) {
+                isRailVisible = false
+            }
+        }
+    }
+
+    private func animateTransitionMask() {
+        withAnimation(.easeOut(duration: 0.10)) {
+            transitionMaskOpacity = 0.28
+        }
+
+        transitionMaskTask?.cancel()
+        transitionMaskTask = Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 280_000_000)
+            withAnimation(.easeIn(duration: 0.20)) {
+                transitionMaskOpacity = 0.0
+            }
+        }
+    }
+
+    private func transition(for direction: ChannelChangeDirection) -> AnyTransition {
+        switch direction {
+        case .previous:
+            return .asymmetric(
+                insertion: .move(edge: .leading).combined(with: .opacity),
+                removal: .move(edge: .trailing).combined(with: .opacity)
+            )
+        case .next:
+            return .asymmetric(
+                insertion: .move(edge: .trailing).combined(with: .opacity),
+                removal: .move(edge: .leading).combined(with: .opacity)
+            )
+        case .none:
+            return .move(edge: .bottom).combined(with: .opacity)
+        }
+    }
+
+    private func channelSubtitle(for service: MirakurunService) -> String {
+        let position = "\(currentIndex + 1)/\(services.count)"
+
+        if let remoteControlKey = service.remoteControlKeyId {
+            return "Channel \(remoteControlKey)  •  \(position)"
+        }
+
+        if let channelNumber = service.channel?.channel {
+            return "Channel \(channelNumber)  •  \(position)"
+        }
+
+        return "Channel \(position)"
+    }
+
+    private func logoURL(for service: MirakurunService) -> URL? {
+        guard service.hasLogoData == true, let serverURL = settings.serverURL else { return nil }
+        return MirakurunEndpointBuilder(serverURL: serverURL).serviceLogoURL(serviceID: service.id)
+    }
+
     private var loadingOverlay: some View {
         VStack(spacing: 20) {
             ZStack {
@@ -115,7 +298,7 @@ struct PlayerView: View {
                     .foregroundStyle(.white.opacity(0.9))
             }
 
-            Text(service.name)
+            Text(currentService?.name ?? "No Channel")
                 .font(.headline)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
@@ -134,6 +317,107 @@ struct PlayerView: View {
         }
         .onDisappear {
             animateLoadingRing = false
+        }
+    }
+
+    private struct LiveTVRailView: View {
+        let service: MirakurunService
+        let subtitle: String
+        let logoURL: URL?
+        let direction: ChannelChangeDirection
+
+        var body: some View {
+            HStack(spacing: 18) {
+                Image(systemName: direction.iconName)
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(.white.opacity(0.9))
+                    .frame(width: 34)
+
+                ServiceLogoView(logoURL: logoURL, width: 96, height: 54)
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(service.name)
+                        .font(.headline)
+                        .lineLimit(1)
+                        .foregroundStyle(.white)
+
+                    Text(subtitle)
+                        .font(.footnote)
+                        .foregroundStyle(.white.opacity(0.8))
+                        .lineLimit(1)
+                }
+
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 22)
+            .padding(.vertical, 16)
+            .frame(maxWidth: 860)
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .strokeBorder(Color.white.opacity(0.22), lineWidth: 1)
+            )
+            .shadow(color: .black.opacity(0.45), radius: 24, y: 12)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(service.name)
+            .accessibilityIdentifier("player.channelRail")
+        }
+    }
+
+    private struct RemoteCommandCaptureView: UIViewRepresentable {
+        let onMoveCommand: (MoveCommandDirection) -> Void
+
+        func makeUIView(context: Context) -> CommandCaptureUIView {
+            let view = CommandCaptureUIView()
+            view.onMoveCommand = onMoveCommand
+            view.activateIfNeeded()
+            return view
+        }
+
+        func updateUIView(_ uiView: CommandCaptureUIView, context: Context) {
+            uiView.onMoveCommand = onMoveCommand
+            uiView.activateIfNeeded()
+        }
+
+        final class CommandCaptureUIView: UIView {
+            var onMoveCommand: ((MoveCommandDirection) -> Void)?
+
+            override init(frame: CGRect) {
+                super.init(frame: frame)
+                backgroundColor = .clear
+            }
+
+            required init?(coder: NSCoder) {
+                fatalError("init(coder:) has not been implemented")
+            }
+
+            override var canBecomeFirstResponder: Bool { true }
+
+            func activateIfNeeded() {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    _ = self.becomeFirstResponder()
+                }
+            }
+
+            override func didMoveToWindow() {
+                super.didMoveToWindow()
+                activateIfNeeded()
+            }
+
+            override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
+                for press in presses {
+                    switch press.type {
+                    case .leftArrow:
+                        onMoveCommand?(.left)
+                    case .rightArrow:
+                        onMoveCommand?(.right)
+                    default:
+                        break
+                    }
+                }
+                super.pressesEnded(presses, with: event)
+            }
         }
     }
 }

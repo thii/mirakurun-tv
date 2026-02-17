@@ -10,6 +10,7 @@
 		119F5BF58F90146716522E3E /* ChannelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EA837C93130D1C9C3E9D0A /* ChannelsView.swift */; };
 		21188EE974009D0C0F6DA6DF /* MirakurunModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3739D9B9FD9F8B782CA32475 /* MirakurunModels.swift */; };
 		22FB950F27CB47BD5F367A24 /* ChannelRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0EE689B1C1E9BA521E27BC5 /* ChannelRowView.swift */; };
+		343798DD459E52210BCC7780 /* PlayerChannelSwitchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8BCC4930A51D079C884B0D1 /* PlayerChannelSwitchUITests.swift */; };
 		36B9775CE12C800209A9F43A /* JapanTVApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD0C748954C9B02E51D8515 /* JapanTVApp.swift */; };
 		45681377DD52E05170F6BDF3 /* ProgramsMenuNavigationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84104E7B415C137777FA4ABA /* ProgramsMenuNavigationUITests.swift */; };
 		482D5A3B8050DC29A8AA89DD /* TVVLCKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A09E1CFA1CC3D13530405A87 /* TVVLCKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -66,6 +67,7 @@
 		99FA033572E6C36D4AF00A7E /* MirakurunEndpointBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirakurunEndpointBuilder.swift; sourceTree = "<group>"; };
 		A09E1CFA1CC3D13530405A87 /* TVVLCKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = TVVLCKit.xcframework; path = Vendor/TVVLCKit.xcframework; sourceTree = "<group>"; };
 		A78A279B389B89BA70D4F790 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A8BCC4930A51D079C884B0D1 /* PlayerChannelSwitchUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerChannelSwitchUITests.swift; sourceTree = "<group>"; };
 		C8A76A4624760CC1DD1CF026 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		CEBCB399392569C806FA3AF5 /* PlaybackURLResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackURLResolver.swift; sourceTree = "<group>"; };
 		D36B460274E1AE49555EB57F /* JapanTVUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = JapanTVUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,6 +133,7 @@
 		3D3E0DBF092F05D443D72210 /* JapanTVUITests */ = {
 			isa = PBXGroup;
 			children = (
+				A8BCC4930A51D079C884B0D1 /* PlayerChannelSwitchUITests.swift */,
 				84104E7B415C137777FA4ABA /* ProgramsMenuNavigationUITests.swift */,
 			);
 			path = JapanTVUITests;
@@ -295,6 +298,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				343798DD459E52210BCC7780 /* PlayerChannelSwitchUITests.swift in Sources */,
 				45681377DD52E05170F6BDF3 /* ProgramsMenuNavigationUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
