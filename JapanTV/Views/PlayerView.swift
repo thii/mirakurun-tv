@@ -100,6 +100,7 @@ struct PlayerView: View {
     @State private var playbackURL: URL?
     @State private var errorMessage: String?
     @State private var statusText = "Preparing stream..."
+    @State private var subtitleStatusMessage: String?
     @State private var hasStartedPlayback = false
     @State private var animateLoadingRing = false
     @State private var isRailVisible = false
@@ -129,6 +130,7 @@ struct PlayerView: View {
             if let playbackURL {
                 VLCRawTSPlayerView(
                     url: playbackURL,
+                    showsSubtitles: settings.subtitlesEnabled,
                     onStateChanged: { state in
                         Task { @MainActor in
                             handlePlayerState(state)
@@ -138,6 +140,11 @@ struct PlayerView: View {
                         Task { @MainActor in
                             errorMessage = message
                             statusText = "Playback error"
+                        }
+                    },
+                    onSubtitleStatusChanged: { message in
+                        Task { @MainActor in
+                            subtitleStatusMessage = message
                         }
                     }
                 )
@@ -174,8 +181,16 @@ struct PlayerView: View {
         .overlay(alignment: .topLeading) {
             currentProgramOverlay
         }
+        .overlay(alignment: .topTrailing) {
+            subtitleStatusOverlay
+        }
         .task(id: playbackTaskToken) {
             preparePlayer()
+        }
+        .onChange(of: settings.subtitlesEnabled) { _, isEnabled in
+            if !isEnabled {
+                subtitleStatusMessage = nil
+            }
         }
         .focusable(true)
         .focusEffectDisabled()
@@ -254,6 +269,7 @@ struct PlayerView: View {
     private func preparePlayer() {
         hasStartedPlayback = false
         statusText = "Preparing stream..."
+        subtitleStatusMessage = nil
 
         guard let currentService else {
             playbackURL = nil
@@ -545,6 +561,25 @@ struct PlayerView: View {
         }
         .onDisappear {
             animateLoadingRing = false
+        }
+    }
+
+    @ViewBuilder
+    private var subtitleStatusOverlay: some View {
+        if settings.subtitlesEnabled, let subtitleStatusMessage {
+            Text(subtitleStatusMessage)
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(.white)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .background(Color.black.opacity(0.7), in: Capsule())
+                .overlay(
+                    Capsule()
+                        .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                )
+                .padding(.top, 36)
+                .padding(.trailing, 44)
+                .accessibilityIdentifier("player.subtitleNotice")
         }
     }
 

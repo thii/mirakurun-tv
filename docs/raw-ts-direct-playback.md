@@ -25,3 +25,5 @@ xcodebuild -project JapanTV.xcodeproj -scheme JapanTV -destination 'platform=tvO
 ## Runtime
 - `PlayerView` now uses `VLCRawTSPlayerView`.
 - Status text is shown (`Opening`, `Buffering`, `Playing`, etc.) from VLC state callbacks.
+- `Settings` includes `Show Subtitles` (default `OFF`), which enables subtitle tracks present in the TS stream when turned on.
+- If VLC reports an unsupported subtitle codec (for example ARIB `arba`), the player shows a subtitle-unavailable warning overlay.

@@ -3,8 +3,13 @@ import Foundation
 @MainActor
 final class SettingsStore: ObservableObject {
     static let defaultServerAddress = "http://raspberrypi:40772"
+    static let defaultSubtitlesEnabled = false
 
     @Published var serverAddress: String {
+        didSet { persist() }
+    }
+
+    @Published var subtitlesEnabled: Bool {
         didSet { persist() }
     }
 
@@ -12,11 +17,13 @@ final class SettingsStore: ObservableObject {
 
     private enum Keys {
         static let serverAddress = "settings.serverAddress"
+        static let subtitlesEnabled = "settings.subtitlesEnabled"
     }
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         self.serverAddress = defaults.string(forKey: Keys.serverAddress) ?? Self.defaultServerAddress
+        self.subtitlesEnabled = defaults.object(forKey: Keys.subtitlesEnabled) as? Bool ?? Self.defaultSubtitlesEnabled
     }
 
     var serverURL: URL? {
@@ -29,15 +36,17 @@ final class SettingsStore: ObservableObject {
     }
 
     var playbackConfigToken: String {
-        serverAddress
+        "\(serverAddress)|subtitles:\(subtitlesEnabled)"
     }
 
     func resetToDefaults() {
         serverAddress = Self.defaultServerAddress
+        subtitlesEnabled = Self.defaultSubtitlesEnabled
     }
 
     private func persist() {
         defaults.set(serverAddress, forKey: Keys.serverAddress)
+        defaults.set(subtitlesEnabled, forKey: Keys.subtitlesEnabled)
     }
 
     static func normalizeAddress(_ input: String) -> String? {

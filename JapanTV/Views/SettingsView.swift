@@ -20,6 +20,10 @@ struct SettingsView: View {
                         .foregroundStyle(.secondary)
                 }
 
+                Section("Playback") {
+                    Toggle("Show Subtitles", isOn: $settings.subtitlesEnabled)
+                }
+
                 Section("Actions") {
                     Button {
                         Task {

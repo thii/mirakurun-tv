@@ -25,7 +25,9 @@ xcodebuild -project JapanTV.xcodeproj -scheme JapanTV -destination 'platform=tvO
 
 Launch from Xcode, then in app `Settings`:
 - Set `Server URL` (Mirakurun base URL)
+- Toggle `Show Subtitles` (`OFF` by default; enables subtitle tracks available in TS stream)
 - Use `Test Connection` (`GET /api/version`)
+- If the stream subtitle codec is unsupported by bundled `TVVLCKit` (for example ARIB `arba`), the player now shows an in-player warning.
 
 ## Install to Physical Apple TV
 ```bash
